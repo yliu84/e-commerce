@@ -29,9 +29,9 @@ export const OrderConfirmationPage: React.FC<{}> = () => {
             {`Your payment was successful but there was an error processing your order. Please contact us to resolve this issue.`}
           </p>
           <div className={classes.actions}>
-            <Button href="/account" label="View account" appearance="primary" />
+            <Button href={`/account/orders/${orderID}`} label="View Order" appearance="primary" />
             <Button
-              href={`${process.env.NEXT_PUBLIC_SERVER_URL}/orders`}
+              href={`${process.env.NEXT_PUBLIC_SERVER_URL}/account/orders`}
               label="View all orders"
               appearance="secondary"
             />
