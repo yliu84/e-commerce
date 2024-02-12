@@ -12,10 +12,11 @@ import classes from './index.module.scss'
 
 const CartItem = ({ product, title, metaImage, qty, addItemToCart }) => {
   const [quantity, setQuantity] = useState(qty)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const decrementQty = () => {
     const updatedQty = quantity > 1 ? quantity - 1 : 1
-
+    setErrorMessage('')
     setQuantity(updatedQty)
     addItemToCart({ product, quantity: Number(updatedQty) })
   }
@@ -23,15 +24,30 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart }) => {
   const incrementQty = () => {
     const updatedQty = quantity + 1
 
+    if (updatedQty > product.totalQuantity) {
+      setErrorMessage('Exceeds stock limit.')
+      return
+    }
+
     setQuantity(updatedQty)
     addItemToCart({ product, quantity: Number(updatedQty) })
+    setErrorMessage('')
   }
 
   const enterQty = (e: React.ChangeEvent<HTMLInputElement>) => {
     const updatedQty = Number(e.target.value)
 
+    if (updatedQty > product.totalQuantity) {
+      setErrorMessage('Exceeds stock limit.')
+      return
+    } else if (updatedQty < 1) {
+      setErrorMessage('Quantity must be at least 1.')
+      return
+    }
+
     setQuantity(updatedQty)
     addItemToCart({ product, quantity: Number(updatedQty) })
+    setErrorMessage('')
   }
 
   return (
@@ -77,6 +93,7 @@ const CartItem = ({ product, title, metaImage, qty, addItemToCart }) => {
             />
           </div>
         </div>
+        {errorMessage && <div className={classes.errorMessage}>{errorMessage}</div>}
       </div>
 
       <div className={classes.subtotalWrapper}>

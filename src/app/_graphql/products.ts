@@ -18,6 +18,7 @@ export const PRODUCT = `
       docs {
         id
         title
+        totalQuantity
         stripeProductID
         ${PRODUCT_CATEGORIES}
         layout {
