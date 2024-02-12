@@ -1,8 +1,10 @@
-.header{
-    padding: 36px 0;
+@import '../../../_css/common.scss';
+
+.header {
+    padding: 16px 0;
 }
 
-.wrap{
+.wrap {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -10,10 +12,24 @@
     gap: calc(var(--base) / 2) var(--base);
 }
 
-.logo{
-    width: 170px;
+.logoDesktop {
+    display: block;
+    max-height: 85px;
+
+    @include small-break {
+        display: none;
+    }
 }
 
-.hide{
+.logoMobile {
+    display: none;
+
+    @include small-break {
+        display: block;
+    }
+
+}
+
+.hide {
     display: none;
 }

@@ -42,7 +42,20 @@ const FooterComponent = ({ footer }: { footer: Footer }) => {
         <Gutter>
           <div className={classes.wrap}>
             <Link href="/">
-              <Image src="/logo.png" alt="logo" width={170} height={50} />
+              <Image
+                className={classes.logoDesktop}
+                src="/logo.png"
+                alt="logo"
+                width={170}
+                height={60}
+              />
+              <Image
+                className={classes.logoMobile}
+                src="/logo-mobile.png"
+                alt="logo"
+                width={50}
+                height={50}
+              />
             </Link>
 
             <p>{footer.copyright}</p>
