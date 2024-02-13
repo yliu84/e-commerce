@@ -1,6 +1,6 @@
 'use client'
 
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 import { Product } from '../../../payload/payload-types'
@@ -76,11 +76,6 @@ export const Card: React.FC<{
       </div>
       <div className={classes.content}>
         {titleToUse && <h4 className={classes.title}>{titleToUse}</h4>}
-        {description && (
-          <div className={classes.body}>
-            {description && <p className={classes.description}>{sanitizedDescription}</p>}
-          </div>
-        )}
         {doc && <Price product={doc} />}
       </div>
     </Link>
