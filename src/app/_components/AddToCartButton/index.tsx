@@ -14,8 +14,9 @@ export const AddToCartButton: React.FC<{
   quantity?: number
   className?: string
   appearance?: Props['appearance']
+  disabled?: boolean
 }> = props => {
-  const { product, quantity = 1, className, appearance = 'primary' } = props
+  const { product, quantity = 1, className, appearance = 'primary', disabled = false } = props
 
   const { cart, addItemToCart, isProductInCart, hasInitializedCart } = useCart()
 
@@ -33,6 +34,7 @@ export const AddToCartButton: React.FC<{
       label={isInCart ? `✓ View in cart` : `Add to cart`}
       el={isInCart ? 'link' : undefined}
       appearance={appearance}
+      disabled={disabled}
       className={[
         className,
         classes.addToCartButton,
