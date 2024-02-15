@@ -5,7 +5,7 @@ import type { Order } from '../../../payload-types'
 export const updateProductQuantity: AfterChangeHook<Order> = async ({ doc, req, operation }) => {
   if (operation === 'create' || operation === 'update') {
     for (const item of doc.items) {
-      const productId = item.id
+      const productId = typeof item.product === 'string' ? item.product : item.product.id
       const orderedQuantity = item.quantity
 
       // Fetch the current product to check its totalQuantity
