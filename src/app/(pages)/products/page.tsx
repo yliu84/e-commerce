@@ -1,7 +1,7 @@
 import React from 'react'
 import { draftMode } from 'next/headers'
 
-import { Category, Page } from '../../../payload/payload-types'
+import { Category, Page, Product } from '../../../payload/payload-types'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchDocs } from '../../_api/fetchDocs'
 import { Blocks } from '../../_components/Blocks'
@@ -16,6 +16,7 @@ const Products = async () => {
 
   let page: Page | null = null
   let categories: Category[] | null = null
+  let filteredCategories: Category[] | null = null
 
   try {
     page = await fetchDoc<Page>({
@@ -25,6 +26,13 @@ const Products = async () => {
     })
 
     categories = await fetchDocs<Category>('categories')
+    const products = await fetchDocs<Product>('products')
+
+    const productCategoryIds = products.flatMap(product =>
+      product.categories.map(category => (typeof category === 'object' ? category.id : category)),
+    )
+
+    filteredCategories = categories?.filter(category => productCategoryIds.includes(category.id))
   } catch (error) {
     console.log(error)
   }
@@ -32,7 +40,11 @@ const Products = async () => {
   return (
     <div className={classes.container}>
       <Gutter className={classes.products}>
-        <Filters categories={categories} />
+        {filteredCategories && filteredCategories.length > 0 ? (
+          <Filters categories={filteredCategories} />
+        ) : (
+          ''
+        )}
         <Blocks blocks={page?.layout} disableTopPadding={true} />
       </Gutter>
       <HR />

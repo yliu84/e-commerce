@@ -7,6 +7,7 @@ export const PRODUCTS = `
     Products(limit: 300) {
       docs {
         slug
+        ${PRODUCT_CATEGORIES}
       }
     }
   }
