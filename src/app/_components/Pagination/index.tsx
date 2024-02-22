@@ -19,6 +19,16 @@ export const Pagination: React.FC<{
       <button
         type="button"
         className={classes.button}
+        disabled={page === 1}
+        onClick={() => {
+          onClick(1)
+        }}
+      >
+        First
+      </button>
+      <button
+        type="button"
+        className={classes.button}
         disabled={!hasPrevPage}
         onClick={() => {
           onClick(page - 1)
@@ -40,6 +50,16 @@ export const Pagination: React.FC<{
         }}
       >
         <Chevron rotate={-90} className={classes.icon} />
+      </button>
+      <button
+        type="button"
+        className={classes.button}
+        disabled={page === totalPages}
+        onClick={() => {
+          onClick(totalPages)
+        }}
+      >
+        Last
       </button>
     </div>
   )

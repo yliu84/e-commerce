@@ -1,4 +1,4 @@
-@import '../../../_css/common';
+@import '../../../_css/common.scss';
 
 .filters {
   margin-top: 50px;
@@ -14,11 +14,20 @@
   @include small-break {
     flex-direction: column;
     gap: 20px;
+    position: relative;
+    top: auto;
   }
 
-  @include small-break {
+  @include extra-small-break {
     margin-top: 16px;
   }
+}
+
+.filtersContent{
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 10px; 
+  z-index: 1000; 
 }
 
 .categories {
@@ -29,6 +38,7 @@
 
   @include large-break {
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
   @include small-break {

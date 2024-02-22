@@ -26,7 +26,7 @@ const Filters = ({ categories }: { categories: Category[] }) => {
 
   return (
     <div className={classes.filters}>
-      <div>
+      <div className={classes.filtersContent}>
         <h6 className={classes.title}>Product Categories</h6>
         <div className={classes.categories}>
           {categories.map(category => {
