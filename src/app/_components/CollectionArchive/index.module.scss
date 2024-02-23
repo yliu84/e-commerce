@@ -52,7 +52,7 @@
   }
 
   @include small-break {
-    grid-template-columns: 100%;
+    grid-template-columns: repeat(2, minmax(45%, 1fr));
   }
 }
 

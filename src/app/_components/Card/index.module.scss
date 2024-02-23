@@ -74,6 +74,14 @@
   position: relative;
   min-height: 262px;
   background-color: var(--color-dark-50);
+
+  @include small-break {
+    min-height: 220px;
+  }
+
+  @include extra-small-break{
+    min-height: 200px;
+  }
 }
 
 .image {
