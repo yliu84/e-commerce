@@ -22,8 +22,8 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <link rel="icon" href="/favicon.ico" sizes="32x32" />
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/logo-mobile.png" type="image/x-icon" />
+        <link rel="shortcut icon" href="/logo-mobile.png" type="image/x-icon" />
       </head>
       <body className={jost.variable}>
         <Providers>
