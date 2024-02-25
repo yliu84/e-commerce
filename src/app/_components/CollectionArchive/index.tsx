@@ -75,6 +75,7 @@ export const CollectionArchive: React.FC<Props> = props => {
   const hasHydrated = useRef(false)
   const isRequesting = useRef(false)
   const [page, setPage] = useState(1)
+  const categoryChangedRef = useRef(false)
 
   const scrollToRef = useCallback(() => {
     const { current } = scrollRef
@@ -92,6 +93,10 @@ export const CollectionArchive: React.FC<Props> = props => {
   }, [isLoading, scrollToRef, results])
 
   useEffect(() => {
+    categoryChangedRef.current = true
+  }, [categoryFilters])
+
+  useEffect(() => {
     let timer: NodeJS.Timeout = null
 
     if (populateBy === 'collection' && !isRequesting.current) {
@@ -105,6 +110,8 @@ export const CollectionArchive: React.FC<Props> = props => {
           setIsLoading(true)
         }
       }, 500)
+
+      setPage(categoryChangedRef.current ? 1 : page)
 
       const searchQuery = qs.stringify(
         {
