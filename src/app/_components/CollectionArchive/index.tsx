@@ -10,6 +10,7 @@ import { Card } from '../Card'
 import { Gutter } from '../Gutter'
 import { PageRange } from '../PageRange'
 import { Pagination } from '../Pagination'
+import Spinner from '../Spinner'
 
 import classes from './index.module.scss'
 
@@ -166,37 +167,44 @@ export const CollectionArchive: React.FC<Props> = props => {
   return (
     <div className={[classes.collectionArchive, className].filter(Boolean).join(' ')}>
       <div className={classes.scrollRef} ref={scrollRef} />
-      {!isLoading && error && <div>{error}</div>}
-      <Fragment>
-        {showPageRange !== false && populateBy !== 'selection' && (
-          <div className={classes.pageRange}>
-            <PageRange
-              collection={relationTo}
-              currentPage={results.page}
-              limit={limit}
-              totalDocs={results.totalDocs}
-            />
-          </div>
-        )}
-
-        <div className={classes.grid}>
-          {results.docs?.map((result, index) => {
-            if (typeof result === 'object' && result !== null) {
-              return <Card key={index} doc={result} relationTo={relationTo} showCategories />
-            }
-
-            return null
-          })}
+      {isLoading && (
+        <div className={classes.loadingSpinner}>
+          <Spinner />
         </div>
-        {results.totalPages > 1 && populateBy !== 'selection' && (
-          <Pagination
-            className={classes.pagination}
-            onClick={setPage}
-            page={results.page}
-            totalPages={results.totalPages}
-          />
-        )}
-      </Fragment>
+      )}
+      {!isLoading && error && <div>{error}</div>}
+      {!isLoading && !error && (
+        <Fragment>
+          {showPageRange !== false && populateBy !== 'selection' && (
+            <div className={classes.pageRange}>
+              <PageRange
+                collection={relationTo}
+                currentPage={results.page}
+                limit={limit}
+                totalDocs={results.totalDocs}
+              />
+            </div>
+          )}
+
+          <div className={classes.grid}>
+            {results.docs?.map((result, index) => {
+              if (typeof result === 'object' && result !== null) {
+                return <Card key={result.id} doc={result} relationTo={relationTo} showCategories />
+              }
+
+              return null
+            })}
+          </div>
+          {results.totalPages > 1 && populateBy !== 'selection' && (
+            <Pagination
+              className={classes.pagination}
+              onClick={setPage}
+              page={results.page}
+              totalPages={results.totalPages}
+            />
+          )}
+        </Fragment>
+      )}
     </div>
   )
 }
