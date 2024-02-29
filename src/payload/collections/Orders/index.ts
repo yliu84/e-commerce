@@ -5,6 +5,7 @@ import { adminsOrLoggedIn } from '../../access/adminsOrLoggedIn'
 import { adminsOrOrderedBy } from './access/adminsOrOrderedBy'
 import { clearUserCart } from './hooks/clearUserCart'
 import { populateOrderedBy } from './hooks/populateOrderedBy'
+import { sendOrderEmail } from './hooks/sendOrderEmail'
 import { updateProductQuantity } from './hooks/updateProductQuantity'
 import { updateUserPurchases } from './hooks/updateUserPurchases'
 import { LinkToPaymentIntent } from './ui/LinkToPaymentIntent'
@@ -17,7 +18,7 @@ export const Orders: CollectionConfig = {
     preview: doc => `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/orders/${doc.id}`,
   },
   hooks: {
-    afterChange: [updateUserPurchases, clearUserCart, updateProductQuantity],
+    afterChange: [updateUserPurchases, clearUserCart, updateProductQuantity, sendOrderEmail],
   },
   access: {
     read: adminsOrOrderedBy,

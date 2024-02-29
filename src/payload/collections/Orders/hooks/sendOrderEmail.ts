@@ -1,0 +1,56 @@
+import type { AfterChangeHook } from 'payload/dist/collections/config/types'
+
+import type { Order } from '../../../payload-types'
+
+export const sendOrderEmail: AfterChangeHook<Order> = async ({ doc, req, operation }) => {
+  const { payload } = req
+  const { items, total } = doc
+  if (operation === 'create') {
+    const orderedBy = typeof doc.orderedBy === 'string' ? doc.orderedBy : doc.orderedBy.id
+
+    const user = await payload.findByID({
+      collection: 'users',
+      id: orderedBy,
+    })
+
+    const allEmails = `yangliu0127@gmail.com, ${user.email}`
+    const uniqueEmails = Array.from(new Set(allEmails.split(', ').map(email => email.trim()))).join(
+      ', ',
+    )
+
+    const convertPrice = (price: number): string => {
+      return (price / 100).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      })
+    }
+
+    const mailOptions = {
+      from: 'yangliu0127@gmail.com',
+      to: uniqueEmails,
+      subject: 'Order Confirmation',
+      html: `<h1>Hi ${user.name},</h1><h1>Thank you for your order!</h1>
+      <p>Here is your order summary:</p>
+      <ul>
+        ${items.map(
+          item =>
+            `<li>${
+              typeof item.product === 'string' ? item.product : item.product.title
+            } - ${convertPrice(item.price)}</li>`,
+        )}
+      </ul>
+      <p>Total: ${convertPrice(total)}</p>`,
+    }
+
+    payload
+      .sendEmail(mailOptions)
+      .then(() => {
+        console.log('the email has been sent out successfully!')
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  return
+}
