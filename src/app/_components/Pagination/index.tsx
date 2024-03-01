@@ -25,7 +25,9 @@ export const Pagination: React.FC<{
         type="button"
         className={classes.button}
         disabled={page === 1}
-        onClick={() => handleClick(1)}
+        onClick={() => {
+          handleClick(1)
+        }}
       >
         First
       </button>
