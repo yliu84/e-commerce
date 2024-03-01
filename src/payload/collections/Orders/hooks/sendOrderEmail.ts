@@ -29,17 +29,23 @@ export const sendOrderEmail: AfterChangeHook<Order> = async ({ doc, req, operati
       from: 'yangliu0127@gmail.com',
       to: uniqueEmails,
       subject: 'Order Confirmation',
-      html: `<h1>Hi ${user.name},</h1><h1>Thank you for your order!</h1>
-      <p>Here is your order summary:</p>
-      <ul>
-        ${items.map(
-          item =>
-            `<li>${
-              typeof item.product === 'string' ? item.product : item.product.title
-            } - ${convertPrice(item.price)}</li>`,
-        )}
-      </ul>
-      <p>Total: ${convertPrice(total)}</p>`,
+      templateId: 'd-d914cd8b289540e6b057e2ce4d170b57',
+      dynamic_template_data: {
+        order_number: doc.id,
+        user_name: user.name,
+        orderItems: items.map(item => ({
+          title: typeof item.product === 'string' ? item.product : item.product.title,
+          quantity: item.quantity,
+          price: convertPrice(item.price),
+          image:
+            typeof item.product === 'string'
+              ? item.product
+              : typeof item.product.meta.image === 'string'
+              ? item.product.meta.image
+              : item.product.meta.image.url,
+        })),
+        total: convertPrice(total),
+      },
     }
 
     payload
