@@ -46,7 +46,7 @@ export const Card: React.FC<{
     showCategories,
     title: titleFromProps,
     doc,
-    doc: { slug, title, categories, meta, priceJSON } = {},
+    doc: { slug, title, categories, meta, priceJSON, totalQuantity } = {},
     className,
   } = props
 
@@ -86,7 +86,10 @@ export const Card: React.FC<{
       </div>
       <div className={classes.content}>
         {titleToUse && <h4 className={classes.title}>{titleToUse}</h4>}
-        {doc && <Price product={doc} />}
+        <div className={classes.subContent}>
+          {doc && <Price product={doc} />}
+          {totalQuantity === 0 && <div className={classes.stockOut}>(Sold Out)</div>}
+        </div>
       </div>
     </Link>
   )

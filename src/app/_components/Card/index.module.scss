@@ -21,6 +21,17 @@
   }
 }
 
+.subContent{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.stockOut{
+  color: var(--color-error-500);
+  margin-left: 1rem;
+}
+
 .title {
   margin: 0;
   font-size: 18px;
